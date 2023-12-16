@@ -218,7 +218,7 @@ func (a *API) FavoriteFilmsAdd(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userId := r.Context().Value("userId").(uint64)
+	userId := r.Context().Value(middleware.UserIDKey).(uint64)
 
 	filmId, err := strconv.ParseUint(r.URL.Query().Get("film_id"), 10, 64)
 	if err != nil {
@@ -246,7 +246,7 @@ func (a *API) FavoriteFilmsRemove(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userId := r.Context().Value("userId").(uint64)
+	userId := r.Context().Value(middleware.UserIDKey).(uint64)
 
 	filmId, err := strconv.ParseUint(r.URL.Query().Get("film_id"), 10, 64)
 	if err != nil {
@@ -270,7 +270,7 @@ func (a *API) FavoriteFilms(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userId := r.Context().Value("userId").(uint64)
+	userId := r.Context().Value(middleware.UserIDKey).(uint64)
 
 	page, err := strconv.ParseUint(r.URL.Query().Get("page"), 10, 64)
 	if err != nil {
@@ -355,7 +355,7 @@ func (a *API) AddRating(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userId := r.Context().Value("userId").(uint64)
+	userId := r.Context().Value(middleware.UserIDKey).(uint64)
 
 	var commentRequest requests.CommentRequest
 
@@ -501,7 +501,7 @@ func (a *API) FavoriteActorsAdd(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userId := r.Context().Value("userId").(uint64)
+	userId := r.Context().Value(middleware.UserIDKey).(uint64)
 
 	actorId, err := strconv.ParseUint(r.URL.Query().Get("actor_id"), 10, 64)
 	if err != nil {
@@ -529,7 +529,7 @@ func (a *API) FavoriteActorsRemove(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userId := r.Context().Value("userId").(uint64)
+	userId := r.Context().Value(middleware.UserIDKey).(uint64)
 
 	actorId, err := strconv.ParseUint(r.URL.Query().Get("actor_id"), 10, 64)
 	if err != nil {
@@ -553,7 +553,7 @@ func (a *API) FavoriteActors(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userId := r.Context().Value("userId").(uint64)
+	userId := r.Context().Value(middleware.UserIDKey).(uint64)
 
 	page, err := strconv.ParseUint(r.URL.Query().Get("page"), 10, 64)
 	if err != nil {

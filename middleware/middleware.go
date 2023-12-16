@@ -20,7 +20,7 @@ type ResponseMiddleware struct {
 
 type contextKey string
 
-const userIDKey contextKey = "userId"
+const UserIDKey contextKey = "userId"
 
 func (mw *ResponseMiddleware) setResponseAndMetrics(w http.ResponseWriter, r *http.Request, status int, start time.Time, lg *slog.Logger) {
 	mw.Response.Status = status
@@ -47,7 +47,7 @@ func (mw *ResponseMiddleware) AuthCheck(next http.Handler, core *usecase.Core, l
 			return
 		}
 
-		r = r.WithContext(context.WithValue(r.Context(), userIDKey, userId))
+		r = r.WithContext(context.WithValue(r.Context(), UserIDKey, userId))
 
 		next.ServeHTTP(w, r)
 		requests.SendResponse(w, *mw.Response, lg)
