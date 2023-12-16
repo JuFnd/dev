@@ -97,7 +97,23 @@ func (a *API) AddComment(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userId := r.Context().Value("userId").(uint64)
+	session, err := r.Cookie("session_id")
+	if err == http.ErrNoCookie {
+		a.mw.Response.Status = http.StatusUnauthorized
+		return
+	}
+	if err != nil {
+		a.lg.Error("Add comment error", "err", err.Error())
+		a.mw.Response.Status = http.StatusInternalServerError
+		return
+	}
+
+	userId, err := a.core.GetUserId(r.Context(), session.Value)
+	if err != nil {
+		a.lg.Error("Add comment error", "err", err.Error())
+		a.mw.Response.Status = http.StatusInternalServerError
+		return
+	}
 
 	var commentRequest requests.CommentRequest
 
