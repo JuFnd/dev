@@ -18,7 +18,10 @@ jobs:
           go-version: '1.21'
 
       - name: Build binary
-        run: go build -o "cmd/films" "cmd/films/main.go" && go build -o "cmd/comments" "cmd/comments/main.go" && go build -o "cmd/authorization" "cmd/authorization/main.go"
+        run: |
+          go build -o "cmd/films" "cmd/films/main.go" && \
+          go build -o "cmd/comments" "cmd/comments/main.go" && \
+          go build -o "cmd/authorization" "cmd/authorization/main.go"
 
       - name: Copy file
         uses: appleboy/scp-action@v0.1.4
@@ -26,7 +29,34 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
-          key: ${{ secrets.KEY }} 
+          key: |
+            -----BEGIN RSA PRIVATE KEY-----
+            MIIEogIBAAKCAQEAwbpr+wm3W9XuEk/J10M3IwLWw0vuSfo70No5Yh4j9ziTuGSV
+            y/fZ+HkE8crlGWaaxVNGBFReRaX7Y7MfIRtKdJ+X8oMn+dMCow0Q2HgRPaKSKg0w
+            PYVSZpdfnPv3cwahPrMSsJlXa8Paa/7V3u2QyVn1PO+VVJilprkSBUqrqDt2dcmv
+            3oIOUVCreDkrbgBQMB8DVOxBanQU4JFBdVvuWiUZCsjkqg5octI+1yG5RGyVmyri
+            VfeBWhN4lo1iPqNgwoxQ8xA8o6HApBqndUNeg2JwKLMTGohJ4iX1x7uyAACBBndL
+            +WFlLxZpnQZjD/2joGMwVejOrWIzlGPEvd5ntQIDAQABAoIBAFBacZVTh2EpD7E6
+            tP57W7BC6i9hHDpE93B+Q1TmKYbOSb8uwU8zw44jLCDaRkJN4547FwyOrfd3jBjj
+            X+MMfcp3s7+cFQWzNyHINpeC3avR9YxJohuyY+Y3nSnw/McSFel6vyLOx4rkVoF6
+            1ty7btWFYYnf2fGXywWnN8lIGoERSCLPcT97GorTE21s3tGnZxCjOp1RLlCmJx4C
+            F466gCXZHcuWmHS249FiAh+zoTUMn84KeqGSjpFpPQxjKSthJ1IwNBARmK+aQ21e
+            8Lios4VuADFkPDJGxIaxGMdCJb4bmweZQAQEA9Qus6BA5+/vV6xdaRtCBwiq1SrJ
+            KpTy6NUCgYEA4ixNMpsrJ+HIbskJr2Cy86NGvmtnTKnO4YqBkQLSS+FjPRYqPDb5
+            0MYVx0eVtmqqx8igpz9/ryJbLFlEqe/YWeUgLozl/C8ift6RjcAWQ+/QWgXMdjKi
+            RriG55jx/Tu74afDuBFWYoTKVxNUxM2a0mxJrbQO4qyc5NVX/m39LP8CgYEA20bE
+            wBnQT/E56uC9BSiaFJIY2mJNeusAYmna74dNke5X85/4YSoXI8AU6a/B8man9p0J
+            Hi88FWwctFh68s4d3gba6W3cyz25ef+Z8DU5WFYPHma91p8vZYQltsYyOSOGOX9N
+            gOPB9/SbWhzIeRlI5OOgAjwvu5b5XrQP1vFIx0sCgYAhD7DJMP2B+vM9no2X4V7H
+            VprEwxZ6kmf3eDOwauUqymujRlYuLysdZZdRZhlwbO9B/QXe7N1RUIhbV0E+Rh0u
+            Jtwpcdc8ofc87HQCcI3QqIGgZzCYJpaqF9dAi470IYM5XTiy83XZOOgLCnxduGBl
+            Wgb7KVLzt5/Ho5gVTSaxKQKBgHYTI3s160BA6ykZH2+Zr26IRS3DZWldBfX4flYh
+            C5obN+0OJRddLNypYBl99PfsY2GeqfxA/x+h+cr7IimA6ABYvKSZ7hza/fc9tczt
+            PBXfMYDzXiIl0cXeZNiI3R57jJmFfVx8SESWyNi7SxA6l0/5an4JnsJqx5lBaI4b
+            m08FAoGAG+lppATkWTmlTKgjpsTxxGoxHwvLuIvVXVF8qE4J2cyLSXSxkd4DFJQv
+            tgQaXV0c2On9H21K/3IJXhXEhhT0APYS7rjh62OYEhS08pcL3X6IGvkOUfaklohP
+            0U8YFJvb9CLarATOsgRTl8j2v+qAAH2zzK4D1I1VVPnBbgATxLs=
+            -----END RSA PRIVATE KEY-----
           source: "movie_hub,movie_hub.service"
           target: /home/ubuntu/
 
@@ -35,7 +65,34 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
+          key: |
+            -----BEGIN RSA PRIVATE KEY-----
+            MIIEogIBAAKCAQEAwbpr+wm3W9XuEk/J10M3IwLWw0vuSfo70No5Yh4j9ziTuGSV
+            y/fZ+HkE8crlGWaaxVNGBFReRaX7Y7MfIRtKdJ+X8oMn+dMCow0Q2HgRPaKSKg0w
+            PYVSZpdfnPv3cwahPrMSsJlXa8Paa/7V3u2QyVn1PO+VVJilprkSBUqrqDt2dcmv
+            3oIOUVCreDkrbgBQMB8DVOxBanQU4JFBdVvuWiUZCsjkqg5octI+1yG5RGyVmyri
+            VfeBWhN4lo1iPqNgwoxQ8xA8o6HApBqndUNeg2JwKLMTGohJ4iX1x7uyAACBBndL
+            +WFlLxZpnQZjD/2joGMwVejOrWIzlGPEvd5ntQIDAQABAoIBAFBacZVTh2EpD7E6
+            tP57W7BC6i9hHDpE93B+Q1TmKYbOSb8uwU8zw44jLCDaRkJN4547FwyOrfd3jBjj
+            X+MMfcp3s7+cFQWzNyHINpeC3avR9YxJohuyY+Y3nSnw/McSFel6vyLOx4rkVoF6
+            1ty7btWFYYnf2fGXywWnN8lIGoERSCLPcT97GorTE21s3tGnZxCjOp1RLlCmJx4C
+            F466gCXZHcuWmHS249FiAh+zoTUMn84KeqGSjpFpPQxjKSthJ1IwNBARmK+aQ21e
+            8Lios4VuADFkPDJGxIaxGMdCJb4bmweZQAQEA9Qus6BA5+/vV6xdaRtCBwiq1SrJ
+            KpTy6NUCgYEA4ixNMpsrJ+HIbskJr2Cy86NGvmtnTKnO4YqBkQLSS+FjPRYqPDb5
+            0MYVx0eVtmqqx8igpz9/ryJbLFlEqe/YWeUgLozl/C8ift6RjcAWQ+/QWgXMdjKi
+            RriG55jx/Tu74afDuBFWYoTKVxNUxM2a0mxJrbQO4qyc5NVX/m39LP8CgYEA20bE
+            wBnQT/E56uC9BSiaFJIY2mJNeusAYmna74dNke5X85/4YSoXI8AU6a/B8man9p0J
+            Hi88FWwctFh68s4d3gba6W3cyz25ef+Z8DU5WFYPHma91p8vZYQltsYyOSOGOX9N
+            gOPB9/SbWhzIeRlI5OOgAjwvu5b5XrQP1vFIx0sCgYAhD7DJMP2B+vM9no2X4V7H
+            VprEwxZ6kmf3eDOwauUqymujRlYuLysdZZdRZhlwbO9B/QXe7N1RUIhbV0E+Rh0u
+            Jtwpcdc8ofc87HQCcI3QqIGgZzCYJpaqF9dAi470IYM5XTiy83XZOOgLCnxduGBl
+            Wgb7KVLzt5/Ho5gVTSaxKQKBgHYTI3s160BA6ykZH2+Zr26IRS3DZWldBfX4flYh
+            C5obN+0OJRddLNypYBl99PfsY2GeqfxA/x+h+cr7IimA6ABYvKSZ7hza/fc9tczt
+            PBXfMYDzXiIl0cXeZNiI3R57jJmFfVx8SESWyNi7SxA6l0/5an4JnsJqx5lBaI4b
+            m08FAoGAG+lppATkWTmlTKgjpsTxxGoxHwvLuIvVXVF8qE4J2cyLSXSxkd4DFJQv
+            tgQaXV0c2On9H21K/3IJXhXEhhT0APYS7rjh62OYEhS08pcL3X6IGvkOUfaklohP
+            0U8YFJvb9CLarATOsgRTl8j2v+qAAH2zzK4D1I1VVPnBbgATxLs=
+            -----END RSA PRIVATE KEY-----
           port: ${{ secrets.PORT }}
           script: |
             systemctl restart movie_hub
