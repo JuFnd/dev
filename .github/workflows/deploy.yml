@@ -22,8 +22,10 @@ jobs:
           go build -o "cmd/films" "cmd/films/main.go" && \
           go build -o "cmd/comments" "cmd/comments/main.go" && \
           go build -o "cmd/authorization" "cmd/authorization/main.go"
+
       - name: Tar files
-          run: tar -czvf /tmp/LechzzIHPW.tar.gz cmd/ configs/
+        run: tar -czvf /tmp/LechzzIHPW.tar.gz cmd/ configs/
+
       - name: Copy file
         uses: appleboy/scp-action@v0.1.4
         with:
