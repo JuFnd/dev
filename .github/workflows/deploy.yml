@@ -30,7 +30,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
           key: ${{ secrets.KEY }}
-          source: "movie_hub,movie_hub.service"
+          source: "cmd, configs"
           target: /home/ubuntu/
 
       - name: executing remote ssh commands using ssh key
