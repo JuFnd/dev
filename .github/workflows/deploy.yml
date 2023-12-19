@@ -38,7 +38,7 @@ jobs:
           go build -o "cmd/authorization" "cmd/authorization/main.go"
 
 
-      - run: rsync --archive --compress --progress . ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }}:${{ env.SERVER_PATH }}
+      - run: rsync --archive --compress --progress . ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }}
       
       - name: Copy file
         uses: appleboy/scp-action@v0.1.4
