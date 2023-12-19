@@ -6,9 +6,9 @@ on:
       - 'main'
 
 env:
-   SERVER_HOST: 84.23.54.189
-   SERVER_USER: ubuntu
-   SERVER_PATH: /home/ubuntu
+   SERVER_HOST: your_server_ip
+   SERVER_USER: your_username
+   SERVER_PATH: /path/to/destination/directory
 
 jobs:
   deploy:
@@ -28,8 +28,8 @@ jobs:
           go build -o "cmd/comments" "cmd/comments/main.go" && \
           go build -o "cmd/authorization" "cmd/authorization/main.go"
 
+      - name: Update known hosts
+        run: ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
+
       - name: Copy files to server
         run: scp cmd/films cmd/comments cmd/authorization $SERVER_USER@$SERVER_HOST:$SERVER_PATH
-
-      - name: Dry run rsync
-        run: rsync --archive --compress --dry-run . ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }}:${{ env.SERVER_PATH }}
