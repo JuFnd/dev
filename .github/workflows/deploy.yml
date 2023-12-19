@@ -28,8 +28,10 @@ jobs:
           go build -o "cmd/comments" "cmd/comments/main.go" && \
           go build -o "cmd/authorization" "cmd/authorization/main.go"
 
-      - name: Create known_hosts file
-        run: touch ~/.ssh/known_hosts
+      - name: Create SSH directory and known_hosts file
+        run: |
+          mkdir -p ~/.ssh
+          touch ~/.ssh/known_hosts
 
       - name: Update known hosts
         run: ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
