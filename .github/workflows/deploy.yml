@@ -39,13 +39,3 @@ jobs:
 
 
       - run: rsync --archive --compress --progress . ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }}
-      
-      - name: Copy file
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: "${{ env.SERVER_HOST }}"
-          username: "${{ env.SERVER_USER }}"
-          port: "${{ secrets.PORT }}"
-          key: "${{ secrets.DEPLOY_KEY }}"
-          source: "cmd, configs"
-          target: /home/ubuntu/
