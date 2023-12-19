@@ -5,43 +5,25 @@ on:
     branches:
       - 'main'
 
+env:
+   SERVER_HOST: 84.23.54.189
+   SERVER_USER: ubuntu
+   SERVER_PATH: /home/ubuntu
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 
 
-      - name: Setup go
-        uses: actions/setup-go@v4
-        with: 
-          go-version: '1.21'
-
-      - name: Build binary
-        run: |
-          go build -o "cmd/films" "cmd/films/main.go" && \
-          go build -o "cmd/comments" "cmd/comments/main.go" && \
-          go build -o "cmd/authorization" "cmd/authorization/main.go"
-
-      - name: Tar files
-        run: tar -czvf /tmp/LechzzIHPW.tar.gz cmd/ configs/
-
-      - name: Copy file
-        uses: appleboy/scp-action@v0.1.4
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2.3.1
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          port: ${{ secrets.PORT }}
-          key: ${{ secrets.KEY }}
-          source: "cmd, configs"
-          target: /home/ubuntu/
-
-      - name: executing remote ssh commands using ssh key
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT }}
-          script: |
-            systemctl restart movie_hub
+           key: "${{ secrets.DEPLOY_KEY }}"
+           known_hosts: "placeholder"
+      
+      - name: Generate auth hosts
+        run: ssh-keyscan -H ${{ env.SERVER_HOST }} >> ~/.ssh/known_hosts
+      
+      - run: rsync --archive --compress --progress . ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }}:${{ env.SERVER_PATH }}
