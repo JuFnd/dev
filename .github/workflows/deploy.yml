@@ -17,15 +17,6 @@ jobs:
       - name: Checkout main
         uses: actions/checkout@v4 
 
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2.3.1
-        with:
-           key: "${{ secrets.DEPLOY_KEY }}"
-           known_hosts: "placeholder"
-      
-      - name: Generate auth hosts
-        run: ssh-keyscan -H ${{ env.SERVER_HOST }} >> ~/.ssh/known_hosts
-        
       - name: Setup go
         uses: actions/setup-go@v4
         with: 
@@ -36,6 +27,9 @@ jobs:
           go build -o "cmd/films" "cmd/films/main.go" && \
           go build -o "cmd/comments" "cmd/comments/main.go" && \
           go build -o "cmd/authorization" "cmd/authorization/main.go"
+
+      - name: Copy files to server
+        run: scp cmd/films cmd/comments cmd/authorization $SERVER_USER@$SERVER_HOST:$SERVER_PATH
 
       - name: Dry run rsync
         run: rsync --archive --compress --dry-run . ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }}:${{ env.SERVER_PATH }}
