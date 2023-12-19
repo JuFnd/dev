@@ -6,9 +6,9 @@ on:
       - 'main'
 
 env:
-   SERVER_HOST: your_server_ip
-   SERVER_USER: your_username
-   SERVER_PATH: /path/to/destination/directory
+   SERVER_HOST: 84.23.54.189
+   SERVER_USER: ubuntu
+   SERVER_PATH: /home/ubuntu
 
 jobs:
   deploy:
