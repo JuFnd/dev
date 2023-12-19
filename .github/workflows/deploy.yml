@@ -25,5 +25,27 @@ jobs:
       
       - name: Generate auth hosts
         run: ssh-keyscan -H ${{ env.SERVER_HOST }} >> ~/.ssh/known_hosts
-      
+        
+      - name: Setup go
+        uses: actions/setup-go@v4
+        with: 
+          go-version: '1.21'
+          
+      - name: Build binary
+        run: |
+          go build -o "cmd/films" "cmd/films/main.go" && \
+          go build -o "cmd/comments" "cmd/comments/main.go" && \
+          go build -o "cmd/authorization" "cmd/authorization/main.go"
+
+
       - run: rsync --archive --compress --progress . ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }}:${{ env.SERVER_PATH }}
+      
+      - name: Copy file
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          key: ${{ secrets.KEY }}
+          source: "cmd, configs"
+          target: /home/ubuntu/
