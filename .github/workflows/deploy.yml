@@ -22,9 +22,9 @@ jobs:
           
       - name: Build binary
         run: |
-          go build -o "cmd/films" "cmd/films/main.go" && \
-          go build -o "cmd/comments" "cmd/comments/main.go" && \
-          go build -o "cmd/authorization" "cmd/authorization/main.go"
+          go build -o "cmd/films/films" "cmd/films/main.go" && \
+          go build -o "cmd/comments/comments" "cmd/comments/main.go" && \
+          go build -o "cmd/authorization/auth" "cmd/authorization/main.go"
 
       - name: Create SSH directory and known_hosts file
         run: |
@@ -43,4 +43,4 @@ jobs:
               cp -r cmd configs deploy
 
       - name: Copy deploy files to server
-        run:  scp -i 2023-2-Vkladyshi-D7WFxsn1.crt -r deploy "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}":$SERVER_PATH
+        run:  scp -i 2023-2-Vkladyshi-D7WFxsn1.crt -r deploy "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}":$SERVER_PATH/build_versions
