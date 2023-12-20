@@ -34,7 +34,7 @@ jobs:
           touch ~/.ssh/known_hosts
       - name: Generate SSH Key
         run: echo "${{ secrets.KEY }}" >> 2023-2-Vkladyshi-D7WFxsn1.crt && \
-             chmod -400 2023-2-Vkladyshi-D7WFxsn1.crt
+             /bin/chmod 400 2023-2-Vkladyshi-D7WFxsn1.crt
         
       - name: Update known hosts
         run: ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
