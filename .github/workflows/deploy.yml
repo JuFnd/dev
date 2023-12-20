@@ -7,7 +7,7 @@ on:
 
 env:
    SERVER_HOST: 84.23.54.189
-   SERVER_USER: root
+   SERVER_USER: ubuntu
    SERVER_PATH: /home/ubuntu
 
 jobs:
@@ -32,9 +32,11 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           touch ~/.ssh/known_hosts
-
+      - name: Generate SSH Key
+        run: cat "${{ secrets.KEY" }}" >> 2023-2-Vkladyshi-D7WFxsn1.crt
+        
       - name: Update known hosts
         run: ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
 
       - name: Copy files to server
-        run: scp -r cmd $SERVER_USER@$SERVER_HOST:cmd
+        run:  cmd scp -i 2023-2-Vkladyshi-D7WFxsn1.crt SERVER_USER@$SERVER_HOST:cmd
