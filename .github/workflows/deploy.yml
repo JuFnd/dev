@@ -1,12 +1,10 @@
-name: CI_DEPLOY
+
 on:
   push:
     branches:
       - 'main'
-      
 env:
-  DEPLOY_VERSION: ${{ steps.set_version.outputs.timestamp }}
-  SERVER_PATH: /home/ubuntu
+   SERVER_PATH: /home/ubuntu
 
 jobs:
   deploy:
@@ -14,8 +12,7 @@ jobs:
 
     steps:
       - name: Set version
-        id: set_version
-        run: echo "::set-output name=timestamp::$(date +'%Y-%m-%d_%H-%M-%S')"
+        run:  DEPLOY_VERSION=$(date +'%Y-%m-%d_%H-%M-%S')
         
       - name: Checkout main
         uses: actions/checkout@v4 
@@ -48,18 +45,18 @@ jobs:
 
       - name: Copy deploy files
         run: |
-              mv deploy "deploy_v${{ env.DEPLOY_VERSION }}"
-              scp -i 2023-2-Vkladyshi-D7WFxsn1.crt -r "deploy_v${{ env.DEPLOY_VERSION }}" "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}":$SERVER_PATH/build_versions
+              mv deploy "deploy_v$DEPLOY_VERSION"
+              scp -i 2023-2-Vkladyshi-D7WFxsn1.crt -r "deploy_v$DEPLOY_VERSION" "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}":$SERVER_PATH/build_versions
       
       - name: Restart auth process
         run: |              
               ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "pkill -f auth"
-              ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/authorization && nohup ./auth &"
+              ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v$DEPLOY_VERSION/cmd/authorization && nohup ./auth &"
       - name: Restart comments process
         run: |              
               ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "pkill -f comments"
-              ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/comments && nohup ./comments &"
+              ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v$DEPLOY_VERSION/cmd/comments && nohup ./comments &"
       - name: Restart films process
         run: |              
               ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "pkill -f films"
-              ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/films && nohup ./films &"
+              ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v$DEPLOY_VERSION/cmd/films && nohup ./films &"
