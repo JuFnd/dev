@@ -33,7 +33,7 @@ jobs:
           mkdir -p ~/.ssh
           touch ~/.ssh/known_hosts
       - name: Generate SSH Key
-        run: cat "${{ secrets.KEY" }}" >> 2023-2-Vkladyshi-D7WFxsn1.crt
+        run: cat "${{ secrets.KEY }}" >> 2023-2-Vkladyshi-D7WFxsn1.crt
         
       - name: Update known hosts
         run: ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
