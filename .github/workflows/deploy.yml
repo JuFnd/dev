@@ -44,6 +44,6 @@ jobs:
 
       - name: Copy deploy files to server
         run: |
-              version=$(date +'%Y%m%d%H%M%S')
+              version=$(date +'%Y-%m-%d:%H:%M:%S')
               mv deploy "deploy_v$version"
               scp -i 2023-2-Vkladyshi-D7WFxsn1.crt -r "deploy_v$version" "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}":$SERVER_PATH/build_versions
