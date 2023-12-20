@@ -9,6 +9,8 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      DEPLOY_VERSION: ${{ steps.set_deploy_version.outputs.deploy_version }}
 
     steps:        
       - name: Checkout main
@@ -42,21 +44,35 @@ jobs:
         run:  mkdir deploy &&
               cp -r cmd configs deploy
 
+      - name: Set deploy version
+        id: set_deploy_version
+        run: |
+          echo ::set-output name=deploy_version::$(date +'%Y-%m-%d_%H-%M-%S')
+
       - name: Copy deploy files
         run: |
-              DEPLOY_VERSION=$(date +'%Y-%m-%d_%H-%M-%S')
-              mv deploy "deploy_v$DEPLOY_VERSION"
-              scp -i 2023-2-Vkladyshi-D7WFxsn1.crt -r "deploy_v$DEPLOY_VERSION" "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}":$SERVER_PATH/build_versions
+              mv deploy "deploy_v${{ env.DEPLOY_VERSION }}"
+              scp -i 2023-2-Vkladyshi-D7WFxsn1.crt -r "deploy_v${{ env.DEPLOY_VERSION }}" "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}":$SERVER_PATH/build_versions
       
       - name: Restart auth process
         run: |
-              ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "sudo pkill -f auth"
-              ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v$DEPLOY_VERSION/cmd/authorization && nohup ./auth &"
+              if ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "pgrep -f auth >/dev/null"; then
+                ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "sudo pkill -f auth"
+              fi
+
+              ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/authorization && nohup ./auth &"
+
       - name: Restart comments process
         run: |              
-              ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "sudo pkill -f comments"
-              ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v$DEPLOY_VERSION/cmd/comments && nohup ./comments &"
+              if ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "pgrep -f comments >/dev/null"; then
+                ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "sudo pkill -f comments"
+              fi
+
+              ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/comments && nohup ./comments &"
+              
       - name: Restart films process
         run: |              
-              ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "sudo pkill -f films"
-              ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v$DEPLOY_VERSION/cmd/films && nohup ./films &"
+              if ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "pgrep -f films >/dev/null"; then
+                ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "sudo pkill -f films"
+              fi
+              ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/films && nohup ./films &"
