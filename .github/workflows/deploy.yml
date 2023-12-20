@@ -39,4 +39,4 @@ jobs:
         run: ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
 
       - name: Copy files to server
-        run:  cmd scp -i 2023-2-Vkladyshi-D7WFxsn1.crt SERVER_USER@$SERVER_HOST:cmd
+        run:  cmd scp -i 2023-2-Vkladyshi-D7WFxsn1.crt $SERVER_USER@$SERVER_HOST:$SERVER_PATH
