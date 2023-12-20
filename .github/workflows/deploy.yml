@@ -6,8 +6,6 @@ on:
       - 'main'
 
 env:
-   SERVER_HOST: 84.23.54.189
-   SERVER_USER: ubuntu
    SERVER_PATH: /home/ubuntu
 
 jobs:
@@ -45,4 +43,4 @@ jobs:
               cp -r cmd configs deploy
 
       - name: Copy deploy files to server
-        run:  scp -i 2023-2-Vkladyshi-D7WFxsn1.crt -r deploy $SERVER_USER@$SERVER_HOST:$SERVER_PATH
+        run:  scp -i 2023-2-Vkladyshi-D7WFxsn1.crt -r deploy "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}":$SERVER_PATH
