@@ -3,13 +3,15 @@ on:
   push:
     branches:
       - 'main'
+      
+env:
+  DEPLOY_VERSION: ${{ steps.set_version.outputs.timestamp }}
+  SERVER_PATH: /home/ubuntu
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      DEPLOY_VERSION: ${{ steps.set_version.outputs.timestamp }}
-      SERVER_PATH: /home/ubuntu
+
     steps:
       - name: Set version
         id: set_version
