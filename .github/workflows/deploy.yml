@@ -1,4 +1,4 @@
-
+name: CI_DEPLOY
 on:
   push:
     branches:
@@ -30,9 +30,7 @@ jobs:
 
       - name: SSH configure file
         run: chmod 400 2023-2-Vkladyshi-D7WFxsn1.crt
-        
-      - name: Update known hosts
-        run: ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
       - name: Deploy file configure
         run:  mkdir deploy &&
               cp -r cmd configs deploy
