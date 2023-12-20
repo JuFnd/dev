@@ -37,4 +37,4 @@ jobs:
         run: ssh-keyscan -H $SERVER_HOST >> ~/.ssh/known_hosts
 
       - name: Copy files to server
-        run: scp cmd $SERVER_USER@$SERVER_HOST:cmd
+        run: scp cmd $SERVER_USER@$SERVER_HOST
