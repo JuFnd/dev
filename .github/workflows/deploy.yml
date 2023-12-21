@@ -53,6 +53,5 @@ jobs:
 
       - name: Restart processes
         run: |
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/authorization"
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "nohup ./auth &"
+          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "nohup ./build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/authorization/auth &"
          
