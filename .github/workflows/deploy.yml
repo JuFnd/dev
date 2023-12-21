@@ -51,18 +51,6 @@ jobs:
         run: |
           scp -i 2023-2-Vkladyshi-D7WFxsn1.crt -r "deploy_v${{ env.DEPLOY_VERSION }}" "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}":$SERVER_PATH/build_versions
           
-      - name: Stop worked process auth
-        run: |
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "pkill -f auth"
-          
-      - name: Stop worked process films
-        run: |
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "pkill -f films"
-          
-      - name: Stop worked process comments
-        run: |
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "pkill -f comments"
-      
       - name: Start processes
         run: |
           ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "nohup ./build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/authorization/auth &"
