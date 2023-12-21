@@ -54,21 +54,15 @@ jobs:
       
       - name: Restart auth process
         run: |
-          if ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "pgrep -f auth >/dev/null"; then
-            ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "sudo pkill -f auth"
-          fi
+          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "sudo pkill -f auth"
           ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/authorization && ./auth &"
 
       - name: Restart comments process
         run: |              
-          if ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "pgrep -f comments >/dev/null"; then
-            ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "sudo pkill -f comments"
-          fi
+          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "sudo pkill -f comments"
           ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/comments && ./comments &"
           
       - name: Restart films process
         run: |              
-          if ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "pgrep -f films >/dev/null"; then
-            ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "sudo pkill -f films"
-          fi
+          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "sudo pkill -f films"
           ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/films && ./films &"
