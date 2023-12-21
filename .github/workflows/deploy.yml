@@ -43,7 +43,8 @@ jobs:
 
       - name: Deploy file configure
         run: |
-          mkdir deploy_v${{ env.DEPLOY_VERSION }} &&
+          echo -e '#!bin/bash \ncd authorization && nohup ./auth > output.log 2>&1 & \ncd ../comments && nohup ./comments > commentsnohup.log 2>&1 & \ncd ../films && nohup ./films > filmsnohup.log 2>&1 &' >> run.sh
+          mkdir deploy_v${{ env.DEPLOY_VERSION }} && mv "run.sh" "cmd/run.sh" &&
           cp -r cmd configs deploy_v${{ env.DEPLOY_VERSION }}
       - name: Copy deploy files
         run: |
@@ -51,4 +52,4 @@ jobs:
           
       - name: Start process auth
         run: |
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/authorization && nohup ./auth > output.log 2>&1 & disown"
+          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd && sh run.sh"
