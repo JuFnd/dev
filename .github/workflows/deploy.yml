@@ -29,8 +29,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           touch ~/.ssh/known_hosts
-
-      - name: Generate SSH Key 
+      - name: Generate SSH Key
         run: echo "${{ secrets.KEY }}" >> 2023-2-Vkladyshi-D7WFxsn1.crt
 
       - name: SSH configure file
@@ -46,11 +45,10 @@ jobs:
         run: |
           mkdir deploy_v${{ env.DEPLOY_VERSION }} &&
           cp -r cmd configs deploy_v${{ env.DEPLOY_VERSION }}
-          
       - name: Copy deploy files
         run: |
           scp -i 2023-2-Vkladyshi-D7WFxsn1.crt -r "deploy_v${{ env.DEPLOY_VERSION }}" "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}":$SERVER_PATH/build_versions
           
-      - name: Start process auth
+      - name: Start processes
         run: |
           ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/authorization && nohup ./auth > output.log 2>&1 &"
