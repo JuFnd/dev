@@ -30,7 +30,7 @@ jobs:
           mkdir -p ~/.ssh
           touch ~/.ssh/known_hosts
 
-      - name: Generate SSH Key
+      - name: Generate SSH Key 
         run: echo "${{ secrets.KEY }}" >> 2023-2-Vkladyshi-D7WFxsn1.crt
 
       - name: SSH configure file
