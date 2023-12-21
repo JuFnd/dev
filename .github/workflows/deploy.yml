@@ -60,7 +60,7 @@ jobs:
       - name: Stop worked process films
         run: |
           if ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "pgrep -f films"; then
-             ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "pkill -f filmss"
+             ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "pkill -f films"
           fi
           
       - name: Stop worked process comments
