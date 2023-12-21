@@ -54,9 +54,9 @@ jobs:
 
       - name: Restart processes
         run: |
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" 
-          "sudo bash"
-          "sudo pkill -f auth && sudo pkill -f comments && sudo pkill -f films"
-          "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/authorization && nohup ./auth &"
-          "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/comments && nohup ./comments &"
+          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" && \
+          "sudo bash" && \
+          "sudo pkill -f auth && sudo pkill -f comments && sudo pkill -f films" && \
+          "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/authorization && nohup ./auth &" && \
+          "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/comments && nohup ./comments &" && \
           "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/films && nohup ./films &"
