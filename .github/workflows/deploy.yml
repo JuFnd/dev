@@ -38,23 +38,22 @@ jobs:
         
       - name: Update known hosts
         run: ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Deploy file configure
-        run: |
-          mkdir deploy &&
-          cp -r cmd configs deploy
-
+        
       - name: Set deploy version
         run: echo "DEPLOY_VERSION=$(date +'%Y-%m-%d_%H-%M-%S')" >> $GITHUB_ENV
 
+      - name: Deploy file configure
+        run: |
+          mkdir deploy_v${{ env.DEPLOY_VERSION }} &&
+          cp -r cmd configs deploy_v${{ env.DEPLOY_VERSION }}
+
       - name: Copy deploy files
         run: |
-          mv deploy "deploy_v${{ env.DEPLOY_VERSION }}"
           scp -i 2023-2-Vkladyshi-D7WFxsn1.crt -r "deploy_v${{ env.DEPLOY_VERSION }}" "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}":$SERVER_PATH/build_versions
 
       - name: Restart processes
         run: |
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/authorization && nohup ./auth &"
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/comments && nohup ./comments &"
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/films && nohup ./films &"
+          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/authorization && nohup ./auth&"
+          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/comments && nohup ./comments&"
+          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/films && nohup ./films&"
 
