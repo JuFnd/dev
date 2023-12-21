@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/go-park-mail-ru/2023_2_Vkladyshi/metrics"
+	"github.com/go-park-mail-ru/2023_2_Vkladyshi/pkg/metrics"
 	"github.com/go-park-mail-ru/2023_2_Vkladyshi/pkg/models"
 	easyjson "github.com/mailru/easyjson"
 )
@@ -71,6 +71,10 @@ type (
 		MonthText  string           `json:"monthText"`
 		CurrentDay uint8            `json:"currentDay"`
 		Days       []models.DayItem `json:"days"`
+	}
+
+	SubcribeResponse struct {
+		IsSubcribed bool `json:"subscribe"`
 	}
 )
 
