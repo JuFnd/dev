@@ -54,15 +54,12 @@ jobs:
       
       - name: Restart auth process
         run: |
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "sudo pkill -f auth"
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/authorization && ./auth &"
+          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/authorization && nohup ./auth &"
 
       - name: Restart comments process
         run: |              
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "sudo pkill -f comments"
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/comments && ./comments &"
+          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/comments && nohup ./comments &"
           
       - name: Restart films process
         run: |              
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "sudo pkill -f films"
-          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/films && ./films &"
+          ssh -i 2023-2-Vkladyshi-D7WFxsn1.crt "${{ secrets.SERVER_USER }}"@"${{ secrets.SERVER_HOST }}" "cd $SERVER_PATH/build_versions/deploy_v${{ env.DEPLOY_VERSION }}/cmd/films && nohup ./films &"
